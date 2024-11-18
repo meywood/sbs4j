@@ -1,8 +1,6 @@
 package dev.oak3.sbs4j.model;
 
 import dev.oak3.sbs4j.SerializerBuffer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -14,7 +12,6 @@ import java.util.List;
  * @since 0.1.0
  */
 public class TestData<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestData.class);
 
     /*
      * Type name constants
@@ -22,6 +19,7 @@ public class TestData<T> {
     public static final String BOOLEAN = "BOOLEAN";
     public static final String U_8 = "U8";
     public static final String BYTE_ARRAY = "BYTE_ARRAY";
+    public static final String U_16 = "U16";
     public static final String U_32 = "U32";
     public static final String I_32 = "I32";
     public static final String F_32 = "F32";
@@ -107,6 +105,7 @@ public class TestData<T> {
             new TestData<>(BOOLEAN, true, new byte[]{1}, new byte[]{1}),
             new TestData<>(U_8, Byte.valueOf("7"), new byte[]{7}, new byte[]{7}),
             new TestData<>(BYTE_ARRAY, new byte[]{'s', 'b', 's', '4', 'j'}, new byte[]{115, 98, 115, 52, 106}, new byte[]{115, 98, 115, 52, 106}),
+            new TestData<>(U_16, (short) 7, new byte[]{7, 0,}, new byte[]{0, 7}),
             new TestData<>(U_32, 7L, new byte[]{7, 0, 0, 0}, new byte[]{0, 0, 0, 7}),
             new TestData<>(I_32, 7, new byte[]{7, 0, 0, 0}, new byte[]{0, 0, 0, 7}),
             new TestData<>(F_32, (float) 5, new byte[]{0, 0, -96, 64}, new byte[]{64, -96, 0, 0}),

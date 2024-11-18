@@ -109,6 +109,11 @@ class SerializerBufferTest {
                     LOGGER.debug("{} | Expected: {} | Actual {}", Byte.class.getSimpleName(), testData.getByteValueLittleEndian(), serializerBuffer.toByteArray());
                     assertArrayEquals(testData.getByteValueLittleEndian(), serializerBuffer.toByteArray());
                     break;
+                case TestData.U_16:
+                    serializerBuffer.writeU16((Short) testData.getValue());
+                    LOGGER.debug("{} | Expected: {} | Actual {}", Short.class.getSimpleName(), testData.getByteValueLittleEndian(), serializerBuffer.toByteArray());
+                    assertArrayEquals(testData.getByteValueLittleEndian(), serializerBuffer.toByteArray());
+                    break;
                 case TestData.U_32:
                     serializerBuffer.writeU32((Long) testData.getValue());
                     LOGGER.debug("{} | Expected: {} | Actual {}", Long.class.getSimpleName(), testData.getByteValueLittleEndian(), serializerBuffer.toByteArray());

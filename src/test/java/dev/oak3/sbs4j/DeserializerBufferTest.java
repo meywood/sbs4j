@@ -87,6 +87,11 @@ class DeserializerBufferTest {
                     LOGGER.debug("Expected: {}, Actual: {} - Hex: {}", testData.getValue(), valueU8, testData.getByteValueLittleEndianHex());
                     assertEquals(testData.getValue(), valueU8);
                     break;
+                case TestData.U_16:
+                    short valueU16 = deserializerBuffer.readU16();
+                    LOGGER.debug("Expected: {}, Actual: {} - Hex: {}", testData.getValue(), valueU16, testData.getByteValueLittleEndianHex());
+                    assertEquals(testData.getValue(), valueU16);
+                    break;
                 case TestData.U_32:
                     long valueU32 = deserializerBuffer.readU32();
                     LOGGER.debug("Expected: {}, Actual: {} - Hex: {}", testData.getValue(), valueU32, testData.getByteValueLittleEndianHex());

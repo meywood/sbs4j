@@ -50,7 +50,7 @@ public class SerializerBuffer {
      *
      * @param byteOrder the byte order to be using
      */
-    public SerializerBuffer(ByteOrder byteOrder) {
+    public SerializerBuffer(final ByteOrder byteOrder) {
         this(INITIAL_CAPACITY, byteOrder);
     }
 
@@ -60,7 +60,7 @@ public class SerializerBuffer {
      * @param initialCapacity the initial capacity of the buffer
      * @param byteOrder       the byte order to be using
      */
-    public SerializerBuffer(int initialCapacity, ByteOrder byteOrder) {
+    public SerializerBuffer(final int initialCapacity, final ByteOrder byteOrder) {
         this.buffer = ByteBuffer.allocate(initialCapacity);
         this.buffer.order(byteOrder);
         this.buffer.mark();
@@ -71,7 +71,7 @@ public class SerializerBuffer {
      *
      * @param value boolean value to serialize
      */
-    public void writeBool(boolean value) {
+    public void writeBool(final boolean value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Boolean.class.getSimpleName(),
                 value);
 
@@ -85,18 +85,30 @@ public class SerializerBuffer {
      *
      * @param value byte value to serialize
      */
-    public void writeU8(byte value) {
+    public void writeU8(final byte value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Byte.class.getSimpleName(), value);
 
         put(value);
     }
 
     /**
+     * Writes a single byte value
+     *
+     * @param value byte value to serialize
+     */
+    public void writeU16(final short value) {
+        LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Short.class.getSimpleName(), value);
+
+        put(value);
+    }
+
+
+    /**
      * Writes a byte array value
      *
      * @param value byte array value to serialize
      */
-    public void writeByteArray(byte[] value) {
+    public void writeByteArray(final byte[] value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, byte[].class.getSimpleName(), value);
 
         put(value);
@@ -107,7 +119,7 @@ public class SerializerBuffer {
      *
      * @param value F32 value to serialize
      */
-    public void writeF32(float value) {
+    public void writeF32(final float value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Float.class.getSimpleName(), value);
 
         put(value);
@@ -118,7 +130,7 @@ public class SerializerBuffer {
      *
      * @param value F64 value to serialize
      */
-    public void writeF64(double value) {
+    public void writeF64(final double value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Double.class.getSimpleName(), value);
 
         put(value);
@@ -129,7 +141,7 @@ public class SerializerBuffer {
      *
      * @param value I32 value to serialize
      */
-    public void writeI32(int value) {
+    public void writeI32(final int value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Integer.class.getSimpleName(), value);
 
         put(value);
@@ -140,7 +152,7 @@ public class SerializerBuffer {
      *
      * @param value U32 value to serialize
      */
-    public void writeU32(Long value) {
+    public void writeU32(final Long value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Integer.class.getSimpleName(), value);
 
         put(value.intValue());
@@ -151,7 +163,7 @@ public class SerializerBuffer {
      *
      * @param value I64 value to serialize
      */
-    public void writeI64(long value) {
+    public void writeI64(final long value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, Long.class.getSimpleName(), value);
 
         put(value);
@@ -164,7 +176,7 @@ public class SerializerBuffer {
      *              error with input/output while reading the byte array
      * @throws ValueSerializationException exception holding information of failure to serialize a value
      */
-    public void writeU64(BigInteger value) throws ValueSerializationException {
+    public void writeU64(final BigInteger value) throws ValueSerializationException {
         requireNonNull(value);
         checkBoundsFor(value, 64);
 
@@ -181,7 +193,7 @@ public class SerializerBuffer {
      *              error with input/output while reading the byte array
      * @throws ValueSerializationException exception holding information of failure to serialize a value
      */
-    public void writeU128(BigInteger value) throws ValueSerializationException {
+    public void writeU128(final BigInteger value) throws ValueSerializationException {
         writeBigInteger(value, 128);
     }
 
@@ -192,7 +204,7 @@ public class SerializerBuffer {
      *              error with input/output while reading the byte array
      * @throws ValueSerializationException exception holding information of failure to serialize a value
      */
-    public void writeU256(BigInteger value) throws ValueSerializationException {
+    public void writeU256(final BigInteger value) throws ValueSerializationException {
         writeBigInteger(value, 256);
     }
 
@@ -203,7 +215,7 @@ public class SerializerBuffer {
      *              error with input/output while reading the byte array
      * @throws ValueSerializationException exception holding information of failure to serialize a value
      */
-    public void writeU512(BigInteger value) throws ValueSerializationException {
+    public void writeU512(final BigInteger value) throws ValueSerializationException {
         writeBigInteger(value, 512);
     }
 
@@ -215,15 +227,15 @@ public class SerializerBuffer {
      *              error with input/output while reading the byte array
      * @throws ValueSerializationException exception holding information of failure to serialize a value
      */
-    protected void writeBigInteger(BigInteger value, int size) throws ValueSerializationException {
+    protected void writeBigInteger(final BigInteger value, final int size) throws ValueSerializationException {
         requireNonNull(value);
         checkBoundsFor(value, size);
 
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, BigInteger.class.getSimpleName(), value);
 
-        byte bigIntegerLength = (byte) (Math.ceil(value.bitLength() / 8.0));
+        final byte bigIntegerLength = (byte) (Math.ceil(value.bitLength() / 8.0));
 
-        byte[] byteArray = value.toByteArray();
+        final byte[] byteArray = value.toByteArray();
 
         int skipped = 0;
         boolean skip = true;
@@ -236,7 +248,7 @@ public class SerializerBuffer {
             }
         }
 
-        byte[] bigIntegerBytes = Arrays.copyOfRange(byteArray, skipped, byteArray.length);
+        final byte[] bigIntegerBytes = Arrays.copyOfRange(byteArray, skipped, byteArray.length);
 
         if (this.buffer.order() == ByteOrder.LITTLE_ENDIAN) {
             ByteUtils.reverse(bigIntegerBytes);
@@ -252,7 +264,7 @@ public class SerializerBuffer {
      * @param value String value to serialize
      *              error with input/output while reading the byte array
      */
-    public void writeString(String value) {
+    public void writeString(final String value) {
         LOGGER.debug(LOG_BUFFER_WRITE_TYPE_VALUE_MESSAGE_STRING, String.class.getSimpleName(), value);
 
         put(value.getBytes(StandardCharsets.UTF_8).length);
@@ -266,8 +278,8 @@ public class SerializerBuffer {
      * @param size  the bit size to check against
      * @throws ValueSerializationException exception holding information of failure to serialize a value
      */
-    private void checkBoundsFor(BigInteger value, int size) throws ValueSerializationException {
-        BigInteger max;
+    private void checkBoundsFor(final BigInteger value, final int size) throws ValueSerializationException {
+        final BigInteger max;
         if (size == 64) {
             max = MAX_U64;
         } else if (size == 128) {
@@ -302,11 +314,13 @@ public class SerializerBuffer {
      * @return the byte array serialized data
      */
     public byte[] toByteArray() {
-        return Arrays.copyOfRange(this.buffer.array(),
-                this.buffer.arrayOffset(), this.buffer.arrayOffset() + this.buffer.position());
+        return Arrays.copyOfRange(
+                this.buffer.array(),
+                this.buffer.arrayOffset(), this.buffer.arrayOffset() + this.buffer.position()
+        );
     }
 
-    private void put(byte newByte) {
+    private void put(final byte newByte) {
         // check if it fits and increase buffer if needed
         if (this.buffer.position() + 1 >= this.buffer.capacity()) {
             increaseCapacity(1);
@@ -314,7 +328,16 @@ public class SerializerBuffer {
         this.buffer.put(newByte);
     }
 
-    private void put(byte[] newBytes) {
+    private void put(final short bytes) {
+        // check if it fits and increase buffer if needed
+        if (this.buffer.position() + 2 >= this.buffer.capacity()) {
+            increaseCapacity(2);
+        }
+        this.buffer.putShort(bytes);
+    }
+
+
+    private void put(final byte[] newBytes) {
         // check if it fits and increase buffer if needed
         if (this.buffer.position() + newBytes.length >= this.buffer.capacity()) {
             increaseCapacity(newBytes.length);
@@ -322,7 +345,7 @@ public class SerializerBuffer {
         this.buffer.put(newBytes);
     }
 
-    private void put(float bytes) {
+    private void put(final float bytes) {
         // check if it fits and increase buffer if needed
         if (this.buffer.position() + 4 >= this.buffer.capacity()) {
             increaseCapacity(4);
@@ -330,7 +353,7 @@ public class SerializerBuffer {
         this.buffer.putFloat(bytes);
     }
 
-    private void put(double bytes) {
+    private void put(final double bytes) {
         // check if it fits and increase buffer if needed
         if (this.buffer.position() + 8 >= this.buffer.capacity()) {
             increaseCapacity(8);
@@ -338,7 +361,7 @@ public class SerializerBuffer {
         this.buffer.putDouble(bytes);
     }
 
-    private void put(int bytes) {
+    private void put(final int bytes) {
         // check if it fits and increase buffer if needed
         if (this.buffer.position() + 4 >= this.buffer.capacity()) {
             increaseCapacity(4);
@@ -346,7 +369,7 @@ public class SerializerBuffer {
         this.buffer.putInt(bytes);
     }
 
-    private void put(long bytes) {
+    private void put(final long bytes) {
         // check if it fits and increase buffer if needed
         if (this.buffer.position() + 8 >= this.buffer.capacity()) {
             increaseCapacity(8);
@@ -360,7 +383,7 @@ public class SerializerBuffer {
      * @param increaseByteCount the byte count to increase
      * @throws IllegalArgumentException if the parameter is invalid
      */
-    protected void increaseCapacity(int increaseByteCount) throws IllegalArgumentException {
+    protected void increaseCapacity(final int increaseByteCount) throws IllegalArgumentException {
         if (this.buffer == null) {
             throw new IllegalArgumentException("Buffer is null");
         }
